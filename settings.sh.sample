@@ -10,3 +10,4 @@ CNTLM_LISTEN="http://127.0.0.1:3128"
 
 # Toggles about different tools which can be auto-switched
 AUTO_SWITCH_NPM=true
+AUTO_SWITCH_GIT=true
