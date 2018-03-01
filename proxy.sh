@@ -14,6 +14,7 @@
 PATH=/usr/local/share/nvm/versions/node/v8.5.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 NPM=npm
 BREW=brew
+GIT=git
 
 # END OF CONFIG.
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -58,6 +59,17 @@ set_npm_proxy() {
 	fi
 }
 
+set_git_proxy() {
+  	HTTP_PROXY=$CNTLM_LISTEN
+  	if [ $1 "!=" $NET_LOC_IN_RANGE ]; then
+    		echo "removing git config proxy settings"
+    		$GIT config --global --unset http.proxy
+  	else
+    		echo "setting git config proxy settings"
+    		$GIT config --global http.proxy $HTTP_PROXY
+  	fi
+}
+
 print_help() {
 	echo "Usage: ./proxy.sh [-p] [-h]"
 	echo ""
@@ -85,4 +97,5 @@ echo "Switching proxy setup to "$TARGET_ENV"..."
 set_cntlm $TARGET_ENV
 scselect $TARGET_ENV
 $AUTO_SWITCH_NPM && set_npm_proxy $TARGET_ENV
+$AUTO_SWITCH_GIT && set_git_proxy $TARGET_ENV
 
